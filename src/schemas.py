@@ -1,10 +1,10 @@
 from pydantic import BaseModel, field_validator
-from typing import Optional
 
 class Message(BaseModel):
     body:str
-    subject:str = '[ENIGMA]: No Subject'
+    subject:str = '[ENIGMA]'
     receivers:list = []
+    sender:str = None
     
     @classmethod
     @field_validator('subject')

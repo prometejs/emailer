@@ -1,37 +1,10 @@
-# Emailer
-Simple email process to send emails 
-
-env vars
-user=invalid
-password=invalid
-host=sandbox.smtp.invalid.io
-sender=from@example.com # fallback senders
-port=465
-receivers='["jay@gmail.com", "ga@gmail.com"]' # fallback receivers
-max_thread_count=5
-
-running app
-
-packages
-
-run with python ./src
-
-<!-- add env validation for app -->
-
-<!-- pyinstaller ./run.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer /////--exclude-module -->
-
-<!-- pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --add-data app.ico:/resources --name emailer --icon=/resources/app.ico -->
-
-
-pyproject.toml
-
 [build-system]
 requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "emailer"
-dynamic = ["version"]
+version = "0.1.0"
 requires-python = ">= 3.8"
 dependencies = [
     "pydantic==2.6.1",
@@ -47,27 +20,16 @@ description = "Lovely Spam! Wonderful Spam!"
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
-  # How mature is this project? Common values are
-  #   3 - Alpha
-  #   4 - Beta
-  #   5 - Production/Stable
-  "Development Status :: 4 - Beta",
-
-  # Indicate who your project is intended for
+  "Development Status :: 4 - Alpha",
   "Intended Audience :: Developers",
   "Topic :: Software Development :: Build Tools",
-
-  # Pick your license as you wish (see also "license" above)
   "License :: OSI Approved :: MIT License",
-
-  # Specify the Python versions you support here.
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
 keywords = ["emailer"]
-# entrypoint = []
 
 [project.urls]
 Homepage = "https://github.com/Prometejs/emailer.git"
@@ -76,9 +38,25 @@ Repository = "https://github.com/Prometejs/emailer/blob/main/README.md"
 Issues = "https://github.com/Prometejs/emailer/issues"
 Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
 
+[project.scripts]
+emailer = "__main__:main"
 
+# [tool.setuptools.package-dir]
+# "" = "src"
 
-python3 -m build   
-pip install --upgrade build   
-pip install --upgrade setuptools
-pip install ./dist/emailer-0.1.0-py3-none-any.whl --force-reinstall
+# [tool.setuptools]
+# packages = ["src"]
+# include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["logging.conf"]
+
+# [project.entry-points.console_scripts]
+# emailer = "src.__main__:main"
+
+# [tool.setuptools]
+# packages = ["src"]
+# include-package-data = true

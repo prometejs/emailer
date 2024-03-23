@@ -1,0 +1,16 @@
+**/.git/
+**/.github/
+**/venv/
+**/.gitignore
+**/__pycache__/
+*.pyc
+dockerfile
+*.md
+.env
+tests/
+venv/
+tests/
+setup.py
+LICENSE
+.dockerignore
+.env
