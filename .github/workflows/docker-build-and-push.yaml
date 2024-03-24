@@ -6,12 +6,12 @@ on:
       - main
     paths:
       - 'src/**'
-      # - dockerfile
+      - dockerfile
   workflow_dispatch:
 
 permissions:
   contents: read
-  pull-requests: read
+  packages: write
 
 jobs:
   build_docker_image:
