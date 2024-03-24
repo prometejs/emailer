@@ -14,7 +14,7 @@ permissions:
   packages: write
 
 jobs:
-  build_docker_image:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

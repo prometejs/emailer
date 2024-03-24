@@ -1,52 +1,81 @@
-name: build linux executable and push to GHCR
+name: build executables and push to GHCR
 
 on:
-  # push:
-  #   paths:
-  #     - 'src/**'
-  #   branches:
-  #     - main
-  workflow_dispath:
+  push:
+    paths:
+      - 'src/**'
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
-  build_docker_image:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        os: 
+          - ubuntu-latest
+          - windows-latest
+        version:
+          - 3.10
+    
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.version }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
 
       - name: Install PyInstaller
         run: pip install pyinstaller
 
-      - name: Build Executable
-        run: pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer 
+      - name: Extract matrix os string
+        id: extract_os_string
+        run: |
+          INPUT_STRING=${{ matrix.os }}
+          OUTPUT_STRING="${INPUT_STRING%-*}"
+          echo "::set-output name=os::$OUTPUT_STRING"
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: true
+      - name: Build Executable Binary
+        run: pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/emailer
-          asset_name: emailer
-          asset_content_type: application/octet-stream
+      - name: Install ORAS CLI
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          VERSION="1.1.0"
+          curl -LO "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz"
+          mkdir -p oras-install/
+          tar -zxf oras_${VERSION}_*.tar.gz -C oras-install/
+          sudo mv oras-install/oras /usr/local/bin/
+          rm -rf oras_${VERSION}_*.tar.gz oras-install/
+      
+      - name: Install ORAS CLI
+        if: matrix.os == 'windows-latest'
+        run: |
+          winget install oras --version 1.1.0
+
+      - name: Log in to GitHub Container Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
+
+      - name: Convert GitHub repository to lowercase
+        run: |
+          echo "repository=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Upload ${{ matrix.os }} executables
+        run: |
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ steps.extract_os_string.outputs.os }}:latest ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ steps.extract_os_string.outputs.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
+
+      - name: Logout from GitHub Container Registry
+        run: oras logout ghcr.io
