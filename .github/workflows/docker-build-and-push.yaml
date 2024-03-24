@@ -7,7 +7,7 @@ on:
     paths:
       - 'src/**'
       - dockerfile
-  workflow_dispath:
+  workflow_dispatch:
 
 jobs:
   build_docker_image:
