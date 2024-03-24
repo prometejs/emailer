@@ -1,12 +1,12 @@
 name: build docker image and push to GHCR
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'src/**'
-  #     - dockerfile
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - dockerfile
   workflow_dispath:
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2

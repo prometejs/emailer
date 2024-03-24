@@ -23,7 +23,7 @@ class Config(BaseSettings):
     password: SecretStr = Field(frozen=True)
     sender: str = Field(default="admin@mail.com", frozen=True)
     port: int = Field(default=465, frozen=True)
-    receivers: list[str] = Field(frozen=True)
+    receivers: List[str] = Field(frozen=True)
     max_thread_count: int = Field(default=5, validation_alias='max_thread_count')
 
 BASE_DIR = Path(__file__).parent
@@ -45,5 +45,3 @@ try:
     config = Config()
 except ValidationError as e:
     print(convert_errors(e, CUSTOM_MESSAGES))
-
-
