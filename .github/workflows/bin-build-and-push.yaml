@@ -43,19 +43,19 @@ jobs:
       - name: Extract matrix os string
         if: matrix.os == 'windows-latest'
         shell: powershell
-        id: extract_os_string
+        id: extract_os_string-${{ matrix.os }}
         run: |
           $INPUT_STRING = "${{ matrix.os }}"
           $OUTPUT_STRING = $INPUT_STRING -replace '-latest', ''
-          echo "::set-output name=os::$OUTPUT_STRING"
+          echo "os=$OUTPUT_STRING" | Out-File -Append -FilePath $env:GITHUB_ENV
 
       - name: Extract matrix os string
         if: matrix.os == 'ubuntu-latest'
-        id: extract_os_string
+        id: extract_os_string-${{ matrix.os }}
         run: |
           INPUT_STRING=${{ matrix.os }}
           OUTPUT_STRING="${INPUT_STRING%-*}"
-          echo "::set-output name=os::$OUTPUT_STRING"
+          echo "os=$OUTPUT_STRING" >> $GITHUB_ENV
 
       - name: Build Executable Binary
         run: pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer
@@ -84,8 +84,8 @@ jobs:
 
       - name: Upload ${{ matrix.os }} executables
         run: |
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ steps.extract_os_string.outputs.os }}:latest ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ steps.extract_os_string.outputs.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:latest ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
