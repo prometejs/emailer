@@ -1,11 +1,11 @@
 name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
 
-on: push
-  branches:
+on: 
+  push:
+    branches:
       - main
     paths:
       - 'src/**'
-      - dockerfile
   workflow_dispatch:
 
 jobs:
