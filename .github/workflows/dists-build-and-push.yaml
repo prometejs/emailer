@@ -1,4 +1,4 @@
-name: build sdist & ldist distribution and push to GHCR
+name: build sdist/bdist distribution and push to GHCR
 
 on: 
   push:
