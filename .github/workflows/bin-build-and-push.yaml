@@ -60,6 +60,19 @@ jobs:
       - name: Build Executable Binary
         run: pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer
 
+      - name: Install winget
+        if: matrix.os == 'windows-latest'
+        shell: powershell
+        run: |
+          $progressPreference = 'silentlyContinue'
+          Write-Information "Downloading WinGet and its dependencies..."
+          Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+          Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+          Invoke-WebRequest -Uri https://github.com/microsoft/microsoft-ui-xaml/releases/download/v2.8.6/Microsoft.UI.Xaml.2.8.x64.appx -OutFile Microsoft.UI.Xaml.2.8.x64.appx
+          Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
+          Add-AppxPackage Microsoft.UI.Xaml.2.8.x64.appx
+          Add-AppxPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
+
       - name: Install ORAS CLI
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -73,12 +86,7 @@ jobs:
       - name: Install ORAS CLI
         if: matrix.os == 'windows-latest'
         run: |
-          set VERSION="1.1.0"
-          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip"
-          tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
-          mkdir -p %USERPROFILE%\bin\
-          copy oras.exe %USERPROFILE%\bin\
-          set PATH=%USERPROFILE%\bin\;%PATH%
+          winget install oras --version 1.1.0
 
       - name: Log in to GitHub Container Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
