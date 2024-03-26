@@ -75,8 +75,8 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           set VERSION="1.1.0"
-          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip"
-          tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
+          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip" --output oras.zip
+          tar.exe -xvzf oras.zip
           echo %GITHUB_WORKSPACE% >> %GITHUB_PATH%
         # echo "$env:GITHUB_WORKSPACE" | Out-File -Append -FilePath $env:GITHUB_PATH
                     
