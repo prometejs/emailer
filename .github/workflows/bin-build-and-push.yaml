@@ -74,7 +74,7 @@ jobs:
         shell: cmd
         if: matrix.os == 'windows-latest'
         run: |
-          echo "VERSION=1.1.0" >> $GITHUB_ENV
+          set VERSION="1.1.0"
           curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip"
           dir .
           echo oras_%VERSION%_windows_amd64.zip
