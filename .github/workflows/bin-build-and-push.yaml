@@ -82,6 +82,8 @@ jobs:
           mkdir -p %USERPROFILE%\bin\
           copy oras.exe %USERPROFILE%\bin\
           set PATH=%USERPROFILE%\bin\;%PATH%
+          oras.exe -h
+          oras -h
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
 
         # set VERSION=1.1.0
