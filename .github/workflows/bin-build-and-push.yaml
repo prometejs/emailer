@@ -84,10 +84,9 @@ jobs:
 
           echo %USERPROFILE%
           
-          echo %USERPROFILE%\bin\ >> $GITHUB_PATH
-          echo $GITHUB_PATH
-          oras.exe -h
-          oras -h
+          echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
+          echo %GITHUB_PATH%
+          
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
 
         # set VERSION=1.1.0
@@ -97,11 +96,6 @@ jobs:
           # set PATH=%USERPROFILE%\bin\;%PATH%
           # echo %PATH%
           # echo %GITHUB_PATH%
-
-        # set PATH=%USERPROFILE%\bin\;%PATH%
-        # tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
-        # echo %GITHUB_WORKSPACE% >> %GITHUB_PATH%
-        # echo "$env:GITHUB_WORKSPACE" | Out-File -Append -FilePath $env:GITHUB_PATH
                     
       - name: Log in to GitHub Container Registry
         run: |    
