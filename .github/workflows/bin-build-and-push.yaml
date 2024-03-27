@@ -74,13 +74,16 @@ jobs:
         # shell: powershell
         if: matrix.os == 'windows-latest'
         run: |
-          set VERSION=1.1.0
+          
+          echo "VERSION=1.1.0" >> $GITHUB_ENV
           curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip"
           dir .
           echo oras_%VERSION%_windows_amd64.zip
           mkdir -p %USERPROFILE%\bin\
           copy oras.exe %USERPROFILE%\bin\
           echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
+
+        # set VERSION=1.1.0
 
         # set PATH=%USERPROFILE%\bin\;%PATH%
         # tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
