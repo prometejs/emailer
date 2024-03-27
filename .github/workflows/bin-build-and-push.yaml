@@ -78,15 +78,20 @@ jobs:
           curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip"
           dir .
           echo oras_%VERSION%_windows_amd64.zip
-          tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
+          tar.exe -xvzf oras_% %_windows_amd64.zip
           mkdir -p %USERPROFILE%\bin\
           copy oras.exe %USERPROFILE%\bin\
-
-          echo %USERPROFILE%
           
           echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
           echo %GITHUB_PATH%
-          
+
+      - name: Add ORAS to Path
+        if: matrix.os == 'windows-latest'
+        shell: powershell
+        run: |
+          echo "${USERPROFILE}\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo ${GITHUB_PATH}
+
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
 
         # set VERSION=1.1.0
