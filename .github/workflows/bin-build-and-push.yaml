@@ -86,7 +86,7 @@ jobs:
         shell: powershell
         if: matrix.os == 'windows-latest'
         run: |
-          "%USERPROFILE%/bin/" | Out-File -FilePath $env:GITHUB_PATH -Append
+          "%USERPROFILE%\bin\" | Out-File -FilePath $env:GITHUB_PATH -Append
           oras -h
   
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
