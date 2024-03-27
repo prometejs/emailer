@@ -81,7 +81,15 @@ jobs:
           tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
           mkdir -p %USERPROFILE%\bin\
           copy oras.exe %USERPROFILE%\bin\
+
+          echo %PATH%
+          echo %GITHUB_PATH%
           set PATH=%USERPROFILE%\bin\;%PATH%
+          echo %PATH%
+          echo %GITHUB_PATH%
+          echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
+          echo %PATH%
+          echo %GITHUB_PATH%
           oras.exe -h
           oras -h
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
@@ -94,7 +102,8 @@ jobs:
         # echo "$env:GITHUB_WORKSPACE" | Out-File -Append -FilePath $env:GITHUB_PATH
                     
       - name: Log in to GitHub Container Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
+        run: |    
+          echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
 
       - name: Convert GitHub repository to lowercase
         run: |
