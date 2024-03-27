@@ -85,8 +85,7 @@ jobs:
           echo %USERPROFILE%
           
           echo %USERPROFILE%\bin\ >> $GITHUB_PATH
-          echo %PATH%
-          echo %GITHUB_PATH%
+          echo $GITHUB_PATH
           oras.exe -h
           oras -h
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
