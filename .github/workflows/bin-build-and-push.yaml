@@ -83,11 +83,7 @@ jobs:
           copy oras.exe %USERPROFILE%\bin\
 
           echo %USERPROFILE%
-          echo %PATH%
-          echo %GITHUB_PATH%
-          set PATH=%USERPROFILE%\bin\;%PATH%
-          echo %PATH%
-          echo %GITHUB_PATH%
+          
           echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
           echo %PATH%
           echo %GITHUB_PATH%
@@ -96,6 +92,12 @@ jobs:
         # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
 
         # set VERSION=1.1.0
+
+        # echo %PATH%
+          # echo %GITHUB_PATH%
+          # set PATH=%USERPROFILE%\bin\;%PATH%
+          # echo %PATH%
+          # echo %GITHUB_PATH%
 
         # set PATH=%USERPROFILE%\bin\;%PATH%
         # tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
