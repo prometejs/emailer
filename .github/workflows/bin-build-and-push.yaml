@@ -62,7 +62,7 @@ jobs:
           mkdir -p $env:HOMEPATH/.local/bin/
           copy oras.exe $env:HOMEPATH/.local/bin/
           "$env:HOMEPATH/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-          dir .
+          dir ./dist
                     
       - name: Log in to GitHub Container Registry
         run: |    
@@ -82,8 +82,7 @@ jobs:
 
       - name: Upload ${{ runner.os }} executables
         run: |
-          cd dist/
-          oras push ghcr.io/${{ steps.repository.outputs.lowercase }}/emailer.${{ steps.os.outputs.lowercase }}:latest,${{ github.sha }} emailer:application/vnd.prometejs.${{ steps.os.outputs.lowercase }}.bin
+          oras push ghcr.io/${{ steps.repository.outputs.lowercase }}/emailer.${{ steps.os.outputs.lowercase }}:latest,${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ steps.os.outputs.lowercase }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
