@@ -20,7 +20,7 @@ Multithreaded email process to send emails
 Product packages come in docker images and linux/windows exectable binaries. 
 
 #### Releases
-###### package releases
+##### package releases
   - [linux executable stable]()
   - [linux executable experimental]()
   - [windows executable stable]()
@@ -29,14 +29,14 @@ Product packages come in docker images and linux/windows exectable binaries.
   - [docker image experimental]()
 
 #### Installation
-###### [Docker](https://docs.docker.com/engine/installation/)
+##### [Docker](https://docs.docker.com/engine/installation/)
 <!-- docker pull from release list -->
-###### Executables
+##### Executables
 <!-- download with oras & normal from release list -->
 
 #### Usage
-###### [Docker](https://docs.docker.com/engine/installation/)
-###### Executables 
+##### [Docker](https://docs.docker.com/engine/installation/)
+##### Executables 
 <!-- stable and tags -->
 <!-- versioning -->
 <!-- see full list of packages -->
@@ -48,18 +48,18 @@ Product packages come in docker images and linux/windows exectable binaries.
 #### Development
 For the adventurous, unstable features are available in the `main` branch, which you can install from [source](https://github.com/Prometejs/emailer.git) and do the following:
 
-###### _Prerequisites_
+##### _Prerequisites_
   - [Python 3.1x]()
 
-1. ###### Clone repository
+1. ##### Clone repository
 ```
 $ git clone https://github.com/Prometejs/emailer.git {your-development-path}
 ```
-2. ###### Create virtual environment
+2. ##### Create virtual environment
 ```
 $ python -m venv {path-to-virtual-environment}
 ```
-3. ###### Activate virtual environment
+3. ##### Activate virtual environment
 _**linux**_
 ```
 $ source {path-to-virtual-environment}/bin/activate
@@ -68,7 +68,7 @@ _**windows**_
 ```
 $ {path-to-virtual-environment}\\Scripts\\Activate
 ```
-4. ###### Install requirements
+4. ##### Install requirements
 ```
 pip install -r {your-development-path}/requirements.txt
 ```
