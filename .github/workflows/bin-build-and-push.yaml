@@ -75,6 +75,7 @@ jobs:
         run: |
           $env:VERSION="1.1.0"
           curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v{$env:VERSION}/oras_{$env:VERSION}_windows_amd64.zip"
+          echo $env:VERSION
           tar.exe -xvzf oras_{$env:VERSION}_windows_amd64.zip
           dir .
           mkdir -p $env:HOMEPATH/.local/bin/
