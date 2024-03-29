@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         os: 
-          - ubuntu-latest
+          # - ubuntu-latest
           - windows-latest
         version:
           - '3.10'
@@ -120,8 +120,8 @@ jobs:
 
       - name: Upload ${{ matrix.os }} executables
         run: |
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:latest ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometujs.${{ steps.extract_os_string.outputs.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:latest ./dist/emailer:application/vnd.prometejs.${{ steps.extract_os_string.outputs.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ steps.extract_os_string.outputs.os }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
