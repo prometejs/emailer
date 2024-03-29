@@ -71,44 +71,14 @@ jobs:
           rm -rf oras_${VERSION}_*.tar.gz oras-install/
       
       - name: Install ORAS CLI
-        shell: cmd
         if: matrix.os == 'windows-latest'
         run: |
-          set VERSION="1.1.0"
-          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v%VERSION%/oras_%VERSION%_windows_amd64.zip"
-          dir .
-          echo oras_%VERSION%_windows_amd64.zip
-          tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
-          mkdir -p %USERPROFILE%\bin\
-          copy oras.exe %USERPROFILE%\bin\
-      
-      
-      
-      # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
-
-      # - name: Add ORAS to SYSPATH
-        # shell: powershell
-        # if: matrix.os == 'windows-latest'
-        # run: |
-          # Get-Content -Path $env:GITHUB_PATH
-        #   echo $Env:USERPROFILE
-        #   echo $env:GITHUB_PATH
-        #   echo "${USERPROFILE}\bin\" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        #   echo $env:GITHUB_PATH
-          # oras -h
-  
-        # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
-        # echo %GITHUB_PATH%
-
-        # echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
-
-        # set VERSION=1.1.0
-
-        # echo %PATH%
-          # echo %GITHUB_PATH%
-          # set PATH=%USERPROFILE%\bin\;%PATH%
-          # echo %PATH%
-          # echo %GITHUB_PATH%
+          $env:VERSION="1.1.0"
+          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v{$env:VERSION}/oras_{$env:VERSION}_windows_amd64.zip"
+          tar.exe -xvzf oras_{$env:VERSION}_windows_amd64.zip
+          mkdir -p $env:HOMEPATH/.local/bin/
+          copy oras.exe $env:HOMEPATH/.local/bin/
+          "$env:HOMEPATH/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
                     
       - name: Log in to GitHub Container Registry
         run: |    
