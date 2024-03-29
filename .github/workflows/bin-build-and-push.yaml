@@ -40,22 +40,21 @@ jobs:
       - name: Install PyInstaller
         run: pip install pyinstaller
 
-      - name: Extract matrix os string
-        if: matrix.os == 'windows-latest'
-        shell: powershell
-        id: extract_os_string-windows
-        run: |
-          $INPUT_STRING = "${{ matrix.os }}"
-          $OUTPUT_STRING = $INPUT_STRING -replace '-latest', ''
-          echo "os=$OUTPUT_STRING" | Out-File -Append -FilePath $env:GITHUB_ENV
+      # - name: Extract matrix os string
+      #   if: matrix.os == 'windows-latest'
+      #   id: extract_os_string-windows
+      #   run: |
+      #     $INPUT_STRING = "${{ matrix.os }}"
+      #     $OUTPUT_STRING = $INPUT_STRING -replace '-latest', ''
+      #     echo "os=$OUTPUT_STRING" | Out-File -Append -FilePath $env:GITHUB_ENV
 
-      - name: Extract matrix os string
-        if: matrix.os == 'ubuntu-latest'
-        id: extract_os_string-linux
-        run: |
-          INPUT_STRING=${{ matrix.os }}
-          OUTPUT_STRING="${INPUT_STRING%-*}"
-          echo "os=$OUTPUT_STRING" >> $GITHUB_ENV
+      # - name: Extract matrix os string
+      #   if: matrix.os == 'ubuntu-latest'
+      #   id: extract_os_string-linux
+      #   run: |
+      #     INPUT_STRING=${{ matrix.os }}
+      #     OUTPUT_STRING="${INPUT_STRING%-*}"
+      #     echo "os=$OUTPUT_STRING" >> $GITHUB_ENV
 
       - name: Build Executable Binary
         run: pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer
@@ -88,10 +87,10 @@ jobs:
         run: |
           echo "repository=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - name: Upload ${{ matrix.os }} executables
+      - name: Upload ${{ runner.os }} executables
         run: |
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:latest ./dist/emailer:application/vnd.prometejs.${{ steps.extract_os_string.outputs.os }}.bin
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ steps.extract_os_string.outputs.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:latest ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
+          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
