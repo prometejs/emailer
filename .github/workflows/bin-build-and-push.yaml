@@ -76,6 +76,7 @@ jobs:
           $env:VERSION="1.1.0"
           curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v{$env:VERSION}/oras_{$env:VERSION}_windows_amd64.zip"
           tar.exe -xvzf oras_{$env:VERSION}_windows_amd64.zip
+          dir .
           mkdir -p $env:HOMEPATH/.local/bin/
           copy oras.exe $env:HOMEPATH/.local/bin/
           "$env:HOMEPATH/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
