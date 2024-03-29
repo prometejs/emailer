@@ -73,11 +73,9 @@ jobs:
       - name: Install ORAS CLI
         if: matrix.os == 'windows-latest'
         run: |
-          $env:VERSION="1.1.0"
-          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v{$env:VERSION}/oras_{$env:VERSION}_windows_amd64.zip"
-          echo $env:VERSION
-          tar.exe -xvzf oras_{$env:VERSION}_windows_amd64.zip
-          dir .
+          Set-Variable -Name "VERSION" -Value "1.1.0"
+          curl.exe -sLO  "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_windows_amd64.zip"
+          tar.exe -xvzf oras_${VERSION}_windows_amd64.zip
           mkdir -p $env:HOMEPATH/.local/bin/
           copy oras.exe $env:HOMEPATH/.local/bin/
           "$env:HOMEPATH/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
