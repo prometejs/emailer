@@ -81,7 +81,6 @@ jobs:
           tar.exe -xvzf oras_%VERSION%_windows_amd64.zip
           mkdir -p %USERPROFILE%\bin\
           copy oras.exe %USERPROFILE%\bin\
-          
           echo %USERPROFILE%\bin\ >> %GITHUB_PATH%
           echo %USERPROFILE%
 
