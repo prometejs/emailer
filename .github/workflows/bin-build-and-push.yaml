@@ -83,14 +83,17 @@ jobs:
         run: |    
           echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
 
-      - name: Convert GitHub repository to lowercase
-        run: |
-          echo "repository=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Convert GitHub Env to Lowercase
+        uses: vishalmamidi/lowercase-action@v1
+        id: lowercase
+        with:
+          repository: ${{ github.repository }}
+          os: ${{ runner.os }}
 
       - name: Upload ${{ runner.os }} executables
         run: |
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:latest ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
-          oras push ghcr.io/${{ env.repository }}/emailer.${{ env.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
+          oras push ghcr.io/${{ steps.lowercase.outputs.repository }}/emailer.${{ steps.lowercase.outputs.os }}:latest ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
+          oras push ghcr.io/${{ steps.lowercase.outputs.repository }}/emailer.${{ steps.lowercase.outputs.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
