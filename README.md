@@ -1,84 +1,94 @@
 # Emailer
-Simple email process to send emails 
+Multithreaded email process to send emails 
 
-env vars
-user=invalid
-password=invalid
-host=sandbox.smtp.invalid.io
-sender=from@example.com # fallback senders
-port=465
-receivers='["jay@gmail.com", "ga@gmail.com"]' # fallback receivers
-max_thread_count=5
+**Document contents**
 
-running app
+- [Packages](#packages)
+  - [Releases](#releases)
+  - [Installation](#installation)
+    - [Docker](#)
+    - [Executables](#)
+- [Usage](#usage)
+  - [Docker](#)
+  - [Executables](#)
+    - [Set Up Environment](#set-up-environment)
+- [Development](#development)
+- [Environment Variables](#environment-variables)
+- [Contributing](#contributing)
 
-packages
+## Packages
+Product packages come in docker images and linux/windows exectable binaries. 
 
-run with python ./src
+#### Releases
+###### package releases
+  - [linux executable stable]()
+  - [linux executable experimental]()
+  - [windows executable stable]()
+  - [windows executable experimental]()
+  - [docker image stable]()
+  - [docker image experimental]()
 
-<!-- add env validation for app -->
+#### Installation
+###### [Docker](https://docs.docker.com/engine/installation/)
+<!-- docker pull from release list -->
+###### Executables
+<!-- download with oras & normal from release list -->
 
-<!-- pyinstaller ./run.py --onefile -p ./src --add-data ./src/logging.conf:. --name emailer /////--exclude-module -->
+#### Usage
+###### [Docker](https://docs.docker.com/engine/installation/)
+###### Executables 
+<!-- stable and tags -->
+<!-- versioning -->
+<!-- see full list of packages -->
+<!-- they come in executables and images -->
+<!-- ###### Set Up Environment -->
+<!-- to get started the application requires these env set -->
+<!-- see full list of env here -->
 
-<!-- pyinstaller ./src/__main__.py --onefile -p ./src --add-data ./src/logging.conf:. --add-data app.ico:/resources --name emailer --icon=/resources/app.ico -->
+#### Development
+For the adventurous, unstable features are available in the `main` branch, which you can install from [source](https://github.com/Prometejs/emailer.git) and do the following:
 
+###### _Prerequisites_
+  - [Python 3.1x]()
 
-pyproject.toml
+1. ###### Clone repository
+```
+$ git clone https://github.com/Prometejs/emailer.git {your-development-path}
+```
+2. ###### Create virtual environment
+```
+$ python -m venv {path-to-virtual-environment}
+```
+3. ###### Activate virtual environment
+_**linux**_
+```
+$ source {path-to-virtual-environment}/bin/activate
+```
+_**windows**_
+```
+$ {path-to-virtual-environment}\\Scripts\\Activate
+```
+4. ###### Install requirements
+```
+pip install -r {your-development-path}/requirements.txt
+```
+**NB:** _In path definitions note OS shells slash conventions_
 
-[build-system]
-requires = ["setuptools >= 61.0"]
-build-backend = "setuptools.build_meta"
+## Environment Variables
+allowed environment variables `KEYWORDS`=`VALUES`:
 
-[project]
-name = "emailer"
-dynamic = ["version"]
-requires-python = ">= 3.8"
-dependencies = [
-    "pydantic==2.6.1",
-    "pydantic-settings==2.2.1"
-]
-authors = [
-  {name = "Prometejs Labs", email = "prometejslabs@gmail.com"}
-]
-maintainers = [
-  {name = "Elvis Segbawu", email = "elvissegbawu@gmail.com"}
-]
-description = "Lovely Spam! Wonderful Spam!"
-readme = "README.md"
-license = {file = "LICENSE"}
-classifiers = [
-  # How mature is this project? Common values are
-  #   3 - Alpha
-  #   4 - Beta
-  #   5 - Production/Stable
-  "Development Status :: 4 - Beta",
+| KEYWORDS | DEFAULT VALUE | TYPE | DESCRIPTION | REQUIRED | 
+| :------ | :-----------: | :--: | :---------: | :------: |
+| mail_user || string | mail server account username | true |
+| mail_password || string | mail server account password| true |
+| mail_host || string | mail server host | true |
+| mail_sender || string | email of account that sends emails | true |
+| mail_port || integer | mail server port | true |
+| mail_receivers || string | JSON list of email receipients | true |
+| max_thread_count | 5 | integer | maximun number of threads to start in running process | false |
 
-  # Indicate who your project is intended for
-  "Intended Audience :: Developers",
-  "Topic :: Software Development :: Build Tools",
+## Contributing
+The original authors and maintainers of this project are:
+* Elvis Segbawu @eliblurr
 
-  # Pick your license as you wish (see also "license" above)
-  "License :: OSI Approved :: MIT License",
-
-  # Specify the Python versions you support here.
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-]
-keywords = ["emailer"]
-# entrypoint = []
-
-[project.urls]
-Homepage = "https://github.com/Prometejs/emailer.git"
-Documentation = "https://github.com/Prometejs/emailer.git"
-Repository = "https://github.com/Prometejs/emailer/blob/main/README.md"
-Issues = "https://github.com/Prometejs/emailer/issues"
-Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
-
-
-
-python3 -m build   
-pip install --upgrade build   
-pip install --upgrade setuptools
-pip install ./dist/emailer-0.1.0-py3-none-any.whl --force-reinstall
+Contributers can fork and make pull request to [emailer](https://github.com/Prometejs/emailer.git)
