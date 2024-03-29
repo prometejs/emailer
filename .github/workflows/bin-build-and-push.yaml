@@ -83,17 +83,22 @@ jobs:
         run: |    
           echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io --username ${{ github.actor }} --password-stdin
 
-      - name: Convert GitHub Env to Lowercase
+      - name: Convert Repository to Lowercase
         uses: vishalmamidi/lowercase-action@v1
-        id: lowercase
+        id: repository
         with:
-          repository: ${{ github.repository }}
-          os: ${{ runner.os }}
+          string: ${{ github.repository }}
+
+      - name: Convert Runner Os to Lowercase
+        uses: vishalmamidi/lowercase-action@v1
+        id: os
+        with:
+          string: ${{ runner.os }}
 
       - name: Upload ${{ runner.os }} executables
         run: |
-          oras push ghcr.io/${{ steps.lowercase.outputs.repository }}/emailer.${{ steps.lowercase.outputs.os }}:latest ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
-          oras push ghcr.io/${{ steps.lowercase.outputs.repository }}/emailer.${{ steps.lowercase.outputs.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
+          oras push ghcr.io/${{ steps.repository.outputs.string }}/emailer.${{ steps.os.outputs.string }}:latest,${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
+        # oras push ghcr.io/${{ steps.lowercase.outputs.repository }}/emailer.${{ steps.lowercase.outputs.os }}:${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ runner.os }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
