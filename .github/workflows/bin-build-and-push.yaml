@@ -82,7 +82,8 @@ jobs:
 
       - name: Upload ${{ runner.os }} executables
         run: |
-          oras push ghcr.io/${{ steps.repository.outputs.lowercase }}/emailer.${{ steps.os.outputs.lowercase }}:latest,${{ github.sha }} ./dist/emailer:application/vnd.prometejs.${{ steps.os.outputs.lowercase }}.bin
+          cd dist/
+          oras push ghcr.io/${{ steps.repository.outputs.lowercase }}/emailer.${{ steps.os.outputs.lowercase }}:latest,${{ github.sha }} emailer:application/vnd.prometejs.${{ steps.os.outputs.lowercase }}.bin
 
       - name: Logout from GitHub Container Registry
         run: oras logout ghcr.io
