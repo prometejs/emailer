@@ -2,7 +2,7 @@
 Multithreaded email process to send emails 
 
 #### Binaries
-linux abd windows exectable binaries available. 
+linux and windows exectable binaries available. 
 
 ## Runtime Variables
 set to environment:
